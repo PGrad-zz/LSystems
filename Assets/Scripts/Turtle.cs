@@ -8,6 +8,7 @@ public class Turtle : MonoBehaviour {
 	public float angle = 90f;
 	private float rad_angle;
 	public GameObject root;
+	public Rules rules;
 	private GameObject tree;
 	private LSystem lSystem;
 	private Stack<State> state_stack;
@@ -18,7 +19,7 @@ public class Turtle : MonoBehaviour {
 		camera = GameObject.Find("Main Camera").GetComponent<Camera>();
 		rad_angle = angle * Mathf.PI / 180f;
 		Debug.Assert(lSystem);
-		cur_state = new State(new Vector2(4, 0), rad_angle);
+		cur_state = new State(new Vector2(-2, -2), rad_angle);
 		state_stack = new Stack<State>();
 	}
 
@@ -67,7 +68,7 @@ public class Turtle : MonoBehaviour {
 		tree = new_tree;
 		Vector2 new_pos;
 		state_stack.Push(cur_state.clone());
-		foreach(char c in lSystem.sentence)
+		foreach(char c in rules.sentence)
 			switch(c) {
 				case 'F':
 					new_pos = cur_state.cursor + new Vector2(Mathf.Cos(cur_state.angle), Mathf.Sin(cur_state.angle)) * length;
@@ -88,9 +89,6 @@ public class Turtle : MonoBehaviour {
 					break;
 				case ']':
 					cur_state = state_stack.Pop();
-					break;
-				default:
-					Debug.LogException(new UnityException("Invalid character."));
 					break;
 			}
 		cur_state = state_stack.Pop();
