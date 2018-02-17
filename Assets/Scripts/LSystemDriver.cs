@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class LSystemDriver : MonoBehaviour {
 	LSystem lSystem;
-	Turtle turtle;
+	Generator turtle;
 	
 	void Start() {
 		lSystem = GameObject.FindWithTag("LSystem").GetComponent<LSystem>();
-		turtle = GameObject.FindGameObjectWithTag("Turtle").GetComponent<Turtle>();
+		turtle = GameObject.FindGameObjectWithTag("Generator").GetComponent<Generator>();
 	}
 	// Update is called once per frame
 	void Update () {

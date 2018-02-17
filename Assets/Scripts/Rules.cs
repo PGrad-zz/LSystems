@@ -5,7 +5,6 @@ using UnityEditor;
 
 public class Rules : ScriptableObject {
     public List<Rule> rules;
-    public string sentence;
     [MenuItem("Assets/Create/LRules")]
     public static void create() {
         Rules asset = Rules.CreateInstance<Rules>();

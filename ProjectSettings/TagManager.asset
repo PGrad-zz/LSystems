@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Turtle
   - LSystem
+  - Generator
   layers:
   - Default
   - TransparentFX

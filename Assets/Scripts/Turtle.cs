@@ -2,23 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Turtle : MonoBehaviour {
+public abstract class Turtle : MonoBehaviour {
 	public float width = .1f;
 	public float length = 10f;
 	public float angle = 90f;
 	private float rad_angle;
 	public GameObject root;
-	public Rules rules;
 	private GameObject tree;
-	private LSystem lSystem;
 	private Stack<State> state_stack;
 	private State cur_state;
 	private Camera camera;
 	void Start() {
-		lSystem = GameObject.FindGameObjectWithTag("LSystem").GetComponent<LSystem>();
+		Init();
+	}
+
+	protected void Init() {
 		camera = GameObject.Find("Main Camera").GetComponent<Camera>();
 		rad_angle = angle * Mathf.PI / 180f;
-		Debug.Assert(lSystem);
 		cur_state = new State(new Vector2(-2, -2), rad_angle);
 		state_stack = new Stack<State>();
 	}
@@ -61,14 +61,16 @@ public class Turtle : MonoBehaviour {
 		return plane;
 	}
 
+	protected abstract string getSentence();
 	public void DrawTree() {
 		GameObject new_tree = Instantiate(root, Vector3.zero, Quaternion.identity);
 		if(tree != null)
 			GameObject.DestroyImmediate(tree);
 		tree = new_tree;
+		tree.transform.parent = transform;
 		Vector2 new_pos;
 		state_stack.Push(cur_state.clone());
-		foreach(char c in rules.sentence)
+		foreach(char c in getSentence())
 			switch(c) {
 				case 'F':
 					new_pos = cur_state.cursor + new Vector2(Mathf.Cos(cur_state.angle), Mathf.Sin(cur_state.angle)) * length;
